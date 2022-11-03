@@ -8,12 +8,28 @@ COUNT_BLOCKS = 20
 MARGIN = 2
 HEADER_COLOR = (109, 126, 237)
 HEADER_MARGIN = 100
+SNAKE_COLOR = (0, 102, 0)
 
 size = [SIZE_BLOCK * COUNT_BLOCKS + COUNT_BLOCKS * MARGIN + SIZE_BLOCK * 2,
         SIZE_BLOCK * COUNT_BLOCKS + COUNT_BLOCKS * MARGIN + 2 * SIZE_BLOCK + HEADER_MARGIN]
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Супер Змейка")
 
+
+class SnakeBlock:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+
+def drawBlock(color, row, column):
+    pygame.draw.rect(screen, color,
+                     [SIZE_BLOCK + column * SIZE_BLOCK + MARGIN * column,
+                      HEADER_MARGIN + SIZE_BLOCK + row * SIZE_BLOCK + MARGIN * row,
+                      SIZE_BLOCK, SIZE_BLOCK])
+
+
+snake_block = [SnakeBlock(9, 9)]
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -27,9 +43,8 @@ while True:
                 color = RED
             else:
                 color = BLUE
-            pygame.draw.rect(screen, color,
-                             [SIZE_BLOCK + column * SIZE_BLOCK + MARGIN * column,
-                              HEADER_MARGIN + SIZE_BLOCK + row * SIZE_BLOCK + MARGIN * row,
-                              SIZE_BLOCK, SIZE_BLOCK])
+            drawBlock(color, row, column)
+    for block in snake_block:
+        drawBlock(SNAKE_COLOR,block.x,block.y)
 
     pygame.display.flip()
